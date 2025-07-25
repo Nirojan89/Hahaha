@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vowel Counter - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .demo-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border-left: 5px solid #4facfe;
+        }
+
+        .demo-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .options-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-item input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .result-item h4 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .result-item p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4facfe;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .breakdown {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .vowel-count {
+            background: #e3f2fd;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #1976d2;
+        }
+
+        .positions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .position-item {
+            background: #fff3e0;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            color: #f57c00;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f44336;
+            margin-top: 15px;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .options-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔤 Vowel Counter</h1>
+            <p>Interactive JavaScript Vowel Analysis Tool</p>
+        </div>
+
+        <div class="content">
+            <!-- Basic Vowel Counting -->
+            <div class="demo-section">
+                <h2>📊 Basic Vowel Counting</h2>
+                <div class="input-group">
+                    <label for="basicText">Enter text to analyze:</label>
+                    <textarea id="basicText" rows="4" placeholder="Type or paste your text here...">Hello World! This is a JavaScript vowel counter demonstration.</textarea>
+                </div>
+                <button class="btn" onclick="analyzeBasic()">Analyze Vowels</button>
+                <div id="basicResults" class="results" style="display: none;"></div>
+            </div>
+
+            <!-- Advanced Options -->
+            <div class="demo-section">
+                <h2>⚙️ Advanced Options</h2>
+                <div class="input-group">
+                    <label for="advancedText">Text for advanced analysis:</label>
+                    <textarea id="advancedText" rows="3" placeholder="Enter text for advanced analysis...">Happy Birthday! Y is sometimes a vowel.</textarea>
+                </div>
+                
+                <div class="options-group">
+                    <div class="option-item">
+                        <input type="checkbox" id="caseSensitive">
+                        <label for="caseSensitive">Case Sensitive</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="checkbox" id="includeY">
+                        <label for="includeY">Include Y as vowel</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="checkbox" id="includeW">
+                        <label for="includeW">Include W as vowel</label>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="customVowels">Custom vowels (comma-separated):</label>
+                    <input type="text" id="customVowels" placeholder="l, r, x">
+                </div>
+                
+                <button class="btn" onclick="analyzeAdvanced()">Advanced Analysis</button>
+                <div id="advancedResults" class="results" style="display: none;"></div>
+            </div>
+
+            <!-- Multiple Text Analysis -->
+            <div class="demo-section">
+                <h2>📚 Multiple Text Analysis</h2>
+                <div class="input-group">
+                    <label for="multipleTexts">Enter multiple texts (one per line):</label>
+                    <textarea id="multipleTexts" rows="6" placeholder="Enter multiple texts, one per line...">Hello World
+JavaScript Programming
+Python Development
+React Components
+Vue.js Framework</textarea>
+                </div>
+                <button class="btn" onclick="analyzeMultiple()">Compare Texts</button>
+                <div id="multipleResults" class="results" style="display: none;"></div>
+            </div>
+
+            <!-- Text Manipulation -->
+            <div class="demo-section">
+                <h2>🔧 Text Manipulation</h2>
+                <div class="input-group">
+                    <label for="manipulateText">Text to manipulate:</label>
+                    <textarea id="manipulateText" rows="3" placeholder="Enter text for manipulation...">This text will be manipulated by removing or replacing vowels.</textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="replacementChar">Replacement character:</label>
+                    <input type="text" id="replacementChar" value="*" maxlength="1" placeholder="*">
+                </div>
+                
+                <button class="btn" onclick="removeVowels()">Remove Vowels</button>
+                <button class="btn btn-secondary" onclick="replaceVowels()">Replace Vowels</button>
+                <button class="btn btn-secondary" onclick="findPositions()">Find Positions</button>
+                
+                <div id="manipulationResults" class="results" style="display: none;"></div>
+            </div>
+
+            <!-- Quick Examples -->
+            <div class="demo-section">
+                <h2>🚀 Quick Examples</h2>
+                <div class="options-group">
+                    <button class="btn" onclick="loadExample('pangram')">The quick brown fox...</button>
+                    <button class="btn" onclick="loadExample('programming')">Programming languages</button>
+                    <button class="btn" onclick="loadExample('poetry')">Poetry example</button>
+                    <button class="btn" onclick="loadExample('technical')">Technical terms</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Assignment.js"></script>
+    <script>
+        // Example texts
+        const examples = {
+            pangram: "The quick brown fox jumps over the lazy dog",
+            programming: "JavaScript, Python, React, Vue.js, Node.js, TypeScript",
+            poetry: "Shall I compare thee to a summer's day? Thou art more lovely and more temperate.",
+            technical: "API endpoint, HTTP request, JSON response, RESTful service"
+        };
+
+        function loadExample(type) {
+            document.getElementById('basicText').value = examples[type];
+            analyzeBasic();
+        }
+
+        function analyzeBasic() {
+            const text = document.getElementById('basicText').value;
+            if (!text.trim()) {
+                showError('basicResults', 'Please enter some text to analyze.');
+                return;
+            }
+
+            try {
+                const result = countVowels(text);
+                displayBasicResults(result);
+            } catch (error) {
+                showError('basicResults', error.message);
+            }
+        }
+
+        function analyzeAdvanced() {
+            const text = document.getElementById('advancedText').value;
+            if (!text.trim()) {
+                showError('advancedResults', 'Please enter some text to analyze.');
+                return;
+            }
+
+            try {
+                const options = {
+                    caseSensitive: document.getElementById('caseSensitive').checked,
+                    includeY: document.getElementById('includeY').checked,
+                    includeW: document.getElementById('includeW').checked,
+                    customVowels: document.getElementById('customVowels').value
+                        .split(',')
+                        .map(v => v.trim())
+                        .filter(v => v.length > 0)
+                };
+
+                const result = countVowels(text, options);
+                displayAdvancedResults(result);
+            } catch (error) {
+                showError('advancedResults', error.message);
+            }
+        }
+
+        function analyzeMultiple() {
+            const texts = document.getElementById('multipleTexts').value
+                .split('\n')
+                .map(t => t.trim())
+                .filter(t => t.length > 0);
+
+            if (texts.length === 0) {
+                showError('multipleResults', 'Please enter at least one text to analyze.');
+                return;
+            }
+
+            try {
+                const result = countVowelsMultiple(texts);
+                displayMultipleResults(result);
+            } catch (error) {
+                showError('multipleResults', error.message);
+            }
+        }
+
+        function removeVowels() {
+            const text = document.getElementById('manipulateText').value;
+            if (!text.trim()) {
+                showError('manipulationResults', 'Please enter some text to manipulate.');
+                return;
+            }
+
+            try {
+                const result = removeVowels(text);
+                displayManipulationResults('Vowels Removed', result, text);
+            } catch (error) {
+                showError('manipulationResults', error.message);
+            }
+        }
+
+        function replaceVowels() {
+            const text = document.getElementById('manipulateText').value;
+            const replacement = document.getElementById('replacementChar').value || '*';
+            
+            if (!text.trim()) {
+                showError('manipulationResults', 'Please enter some text to manipulate.');
+                return;
+            }
+
+            try {
+                const result = replaceVowels(text, replacement);
+                displayManipulationResults('Vowels Replaced', result, text);
+            } catch (error) {
+                showError('manipulationResults', error.message);
+            }
+        }
+
+        function findPositions() {
+            const text = document.getElementById('manipulateText').value;
+            if (!text.trim()) {
+                showError('manipulationResults', 'Please enter some text to analyze.');
+                return;
+            }
+
+            try {
+                const result = findVowelPositions(text);
+                displayPositionResults(result);
+            } catch (error) {
+                showError('manipulationResults', error.message);
+            }
+        }
+
+        function displayBasicResults(result) {
+            const container = document.getElementById('basicResults');
+            container.style.display = 'block';
+            
+            container.innerHTML = `
+                <div class="result-item">
+                    <h4>📊 Analysis Results</h4>
+                    <p><strong>Text:</strong> "${result.text}"</p>
+                    <p><strong>Text length:</strong> ${result.textLength} characters</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">${result.total}</div>
+                        <div class="stat-label">Total Vowels</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${result.vowelPercentage}%</div>
+                        <div class="stat-label">Vowel Percentage</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${result.textLength - result.total}</div>
+                        <div class="stat-label">Consonants</div>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🔤 Vowel Breakdown</h4>
+                    <div class="breakdown">
+                        ${Object.entries(result.breakdown).map(([vowel, count]) => 
+                            `<span class="vowel-count">${vowel}: ${count}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayAdvancedResults(result) {
+            const container = document.getElementById('advancedResults');
+            container.style.display = 'block';
+            
+            const options = result.options;
+            const optionsText = [
+                options.caseSensitive ? 'Case Sensitive' : 'Case Insensitive',
+                options.includeY ? 'Including Y' : 'Excluding Y',
+                options.includeW ? 'Including W' : 'Excluding W',
+                options.customVowels.length > 0 ? `Custom vowels: ${options.customVowels.join(', ')}` : 'No custom vowels'
+            ].join(' • ');
+            
+            container.innerHTML = `
+                <div class="result-item">
+                    <h4>⚙️ Advanced Analysis</h4>
+                    <p><strong>Text:</strong> "${result.text}"</p>
+                    <p><strong>Options:</strong> ${optionsText}</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">${result.total}</div>
+                        <div class="stat-label">Total Vowels</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${result.vowelPercentage}%</div>
+                        <div class="stat-label">Vowel Percentage</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${result.vowelSet.length}</div>
+                        <div class="stat-label">Vowel Types</div>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <h4>🔤 Detailed Breakdown</h4>
+                    <div class="breakdown">
+                        ${Object.entries(result.breakdown).map(([vowel, count]) => 
+                            `<span class="vowel-count">${vowel}: ${count}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayMultipleResults(result) {
+            const container = document.getElementById('multipleResults');
+            container.style.display = 'block';
+            
+            const summary = result.summary;
+            
+            container.innerHTML = `
+                <div class="result-item">
+                    <h4>📚 Multiple Text Analysis</h4>
+                    <p><strong>Total texts analyzed:</strong> ${summary.totalTexts}</p>
+                    <p><strong>Total vowels found:</strong> ${summary.totalVowels}</p>
+                    <p><strong>Average vowels per text:</strong> ${summary.averageVowels.toFixed(2)}</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">${summary.textWithMostVowels.total}</div>
+                        <div class="stat-label">Most Vowels</div>
+                        <div class="stat-label">"${summary.textWithMostVowels.text}"</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${summary.textWithLeastVowels.total}</div>
+                        <div class="stat-label">Least Vowels</div>
+                        <div class="stat-label">"${summary.textWithLeastVowels.text}"</div>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <h4>📊 Individual Results</h4>
+                    ${result.results.map((item, index) => `
+                        <div style="margin-bottom: 10px; padding: 10px; background: white; border-radius: 6px;">
+                            <strong>${index + 1}.</strong> "${item.text}" → <span class="highlight">${item.total} vowels</span> (${item.vowelPercentage}%)
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function displayManipulationResults(operation, result, originalText) {
+            const container = document.getElementById('manipulationResults');
+            container.style.display = 'block';
+            
+            container.innerHTML = `
+                <div class="result-item">
+                    <h4>🔧 ${operation}</h4>
+                    <p><strong>Original:</strong> "${originalText}"</p>
+                    <p><strong>Result:</strong> "${result}"</p>
+                    <p><strong>Characters removed/replaced:</strong> ${originalText.length - result.length}</p>
+                </div>
+            `;
+        }
+
+        function displayPositionResults(result) {
+            const container = document.getElementById('manipulationResults');
+            container.style.display = 'block';
+            
+            container.innerHTML = `
+                <div class="result-item">
+                    <h4>📍 Vowel Positions</h4>
+                    <p><strong>Text:</strong> "${result.text}"</p>
+                    <p><strong>Total vowels found:</strong> ${result.total}</p>
+                    <div class="positions">
+                        ${result.positions.map(pos => 
+                            `<span class="position-item">${pos.vowel}(${pos.position})</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function showError(containerId, message) {
+            const container = document.getElementById(containerId);
+            container.style.display = 'block';
+            container.innerHTML = `<div class="error">❌ ${message}</div>`;
+        }
+
+        // Initialize with a default example
+        window.onload = function() {
+            loadExample('pangram');
+        };
+    </script>
+</body>
+</html>

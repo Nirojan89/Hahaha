@@ -1,0 +1,50 @@
+{
+  "name": "vowel-counter",
+  "version": "1.0.0",
+  "description": "A comprehensive JavaScript library for counting, analyzing, and manipulating vowels in strings",
+  "main": "Assignment.js",
+  "scripts": {
+    "test": "node test.js",
+    "demo": "node -e \"require('./Assignment.js').demonstrateVowelCounter()\"",
+    "start": "node test.js"
+  },
+  "keywords": [
+    "vowel",
+    "counter",
+    "text-analysis",
+    "string-manipulation",
+    "javascript",
+    "nodejs",
+    "browser",
+    "text-processing",
+    "linguistics",
+    "nlp"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/vowel-counter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/vowel-counter/issues"
+  },
+  "homepage": "https://github.com/yourusername/vowel-counter#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "Assignment.js",
+    "README.md",
+    "test.js",
+    "demo.html"
+  ],
+  "devDependencies": {},
+  "dependencies": {},
+  "browserslist": [
+    "Chrome >= 60",
+    "Firefox >= 55",
+    "Safari >= 12",
+    "Edge >= 79"
+  ]
+}
