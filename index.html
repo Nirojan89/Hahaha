@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Ingredients</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+        
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .dropdown-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .lists-groups-flush {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .lists-groups-flush li {
+            padding: 12px 16px;
+            border-bottom: 1px solid #ddd;
+            background-color: #f8f9fa;
+        }
+        
+        .lists-groups-flush li:last-child {
+            border-bottom: none;
+        }
+        
+        .lists-groups-flush li:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recipe Ingredients</h1>
+    
+    <div class="dropdown">
+        <button class="dropdown-btn">Select Recipe Type</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="showIngredients('breakfast')">Breakfast</a>
+            <a href="#" onclick="showIngredients('lunch')">Lunch</a>
+            <a href="#" onclick="showIngredients('dinner')">Dinner</a>
+            <a href="#" onclick="showIngredients('dessert')">Dessert</a>
+        </div>
+    </div>
+    
+    <h2>Ingredients List</h2>
+    <ul id="ingredients-list" class="lists-groups-flush">
+        <li>Flour - 2 cups</li>
+        <li>Sugar - 1 cup</li>
+        <li>Eggs - 3 large</li>
+        <li>Milk - 1 cup</li>
+        <li>Butter - 1/2 cup</li>
+        <li>Vanilla extract - 1 teaspoon</li>
+        <li>Baking powder - 2 teaspoons</li>
+        <li>Salt - 1/2 teaspoon</li>
+    </ul>
+
+    <script>
+        function showIngredients(recipeType) {
+            const ingredientsList = document.getElementById('ingredients-list');
+            
+            // Sample ingredients for different recipe types
+            const ingredients = {
+                breakfast: [
+                    'Eggs - 4 large',
+                    'Bread - 4 slices',
+                    'Butter - 2 tablespoons',
+                    'Milk - 1/4 cup',
+                    'Salt - to taste',
+                    'Pepper - to taste'
+                ],
+                lunch: [
+                    'Chicken breast - 2 pieces',
+                    'Rice - 1 cup',
+                    'Vegetables - 2 cups',
+                    'Olive oil - 2 tablespoons',
+                    'Garlic - 3 cloves',
+                    'Onion - 1 medium'
+                ],
+                dinner: [
+                    'Pasta - 1 pound',
+                    'Tomato sauce - 2 cups',
+                    'Ground beef - 1 pound',
+                    'Cheese - 1 cup',
+                    'Herbs - to taste',
+                    'Garlic bread - 1 loaf'
+                ],
+                dessert: [
+                    'Flour - 2 cups',
+                    'Sugar - 1 cup',
+                    'Eggs - 3 large',
+                    'Milk - 1 cup',
+                    'Butter - 1/2 cup',
+                    'Vanilla extract - 1 teaspoon'
+                ]
+            };
+            
+            // Clear current list
+            ingredientsList.innerHTML = '';
+            
+            // Add new ingredients
+            ingredients[recipeType].forEach(ingredient => {
+                const li = document.createElement('li');
+                li.textContent = ingredient;
+                ingredientsList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
